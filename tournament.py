@@ -1,11 +1,15 @@
 import pandas as pd
 from tabulate import tabulate
+from os.path import isfile
 
 
 class Tournament:
     def __init__(self, players):
         self.players = players
-        self.matchlist = pd.DataFrame(columns=['White', 'Black', 'Result', 'pWhite', 'pBlack'])
+        if isfile('matchlist.csv'):
+            self.matchlist = pd.read_csv('matchlist.csv')
+        else:
+            self.matchlist = pd.DataFrame(columns=['White', 'Black', 'Result', 'pWhite', 'pBlack'])
 
     def addMatch(self, white, black, result):
         new_match = {}
@@ -40,7 +44,7 @@ class Tournament:
 
     def prettyRanking(self):
         ranking = self.getRanking()
-        ranking = dict(sorted(ranking.items(), key=lambda item: item[1], reverse=True))
+        ranking = dict(sorted(ranking.items(), key=lambda item: item[1][0], reverse=True))
         headers = ['Player', 'Points', 'Games']
         pretty_ranking = tabulate([[k, v[0], v[1]] for k, v in ranking.items()], headers=headers, tablefmt='psql')
         return pretty_ranking
