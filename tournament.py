@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from tabulate import tabulate
 
 
 class Tournament:
@@ -30,9 +31,21 @@ class Tournament:
         self.matchlist.to_csv('matchlist.csv', index=False)
 
     def getRanking(self):
-        points = {player: 0 for player in self.players}
+        points = {player: [0, 0] for player in self.players}
         for index, match in self.matchlist.iterrows():
-            points[match['White']] += match['pWhite']
-            points[match['Black']] += match['pBlack']
+            points[match['White']][0] += match['pWhite']
+            points[match['Black']][0] += match['pBlack']
+            points[match['White']][1] += 1
+            points[match['Black']][1] += 1
         return points
+
+    def prettyRanking(self):
+        ranking = self.getRanking()
+        ranking = dict(sorted(ranking.items(), key=lambda item: item[1], reverse=True))
+        headers = ['Player', 'Points', 'Games']
+        pretty_ranking = tabulate([[k, v[0], v[1]] for k, v in ranking.items()], headers=headers, tablefmt='psql')
+        return pretty_ranking
+
+    def prettyMatchlist(self):
+        return tabulate(self.matchlist[['White', 'Black', 'Result']], tablefmt='psql', headers='keys')
 
