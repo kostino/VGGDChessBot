@@ -1,0 +1,12 @@
+from tournament import Tournament
+tour = Tournament(['Kostino','Mesleh','Giannos','Hackerman','Kooustas','Billkapa','Aboosker'])
+tour.addMatch('Giannos','Mesleh','0-1')
+tour.addMatch('Mesleh','Giannos','0-1')
+tour.addMatch('Hackerman','Aboosker','1-0')
+tour.addMatch('Aboosker','Hackerman','0-1')
+tour.addMatch('Kooustas','Kostino','0-1')
+tour.addMatch('Billkapa','Hackerman','draw')
+tour.addMatch('Mesleh','Aboosker','1-0')
+print(tour.getRanking().items())
+print(tour.prettyRanking())
+print(tour.prettyMatchlist())
