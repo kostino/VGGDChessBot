@@ -1,13 +1,13 @@
-import numpy as np
+# import numpy as np
 import pandas as pd
 
 
 class Tournament:
     def __init__(self, players):
         self.players = players
-        self.matchlist = pd.DataFrame(columns=['White', 'Black', 'Result', 'pWhite', 'pBlack'])
+        self.matchList = pd.DataFrame(columns=['White', 'Black', 'Result', 'pWhite', 'pBlack'])
 
-    def addMatch(self, white, black, result):
+    def add_match(self, white, black, result):
         new_match = {}
         if result == '1-0':
             new_match['pBlack'] = 0
@@ -24,16 +24,14 @@ class Tournament:
         new_match['White'] = white
         new_match['Black'] = black
         new_match['Result'] = result
-        self.matchlist = self.matchlist.append(new_match, ignore_index=True)
+        self.matchList = self.matchList.append(new_match, ignore_index=True)
 
-    def saveMatches(self):
-        self.matchlist.to_csv('matchlist.csv', index=False)
+    def save_matches(self):
+        self.matchList.to_csv('matchList.csv', index=False)
 
-    def getRanking(self):
+    def get_ranking(self):
         points = {player: 0 for player in self.players}
-        for index, match in self.matchlist.iterrows():
+        for index, match in self.matchList.iterrows():
             points[match['White']] += match['pWhite']
             points[match['Black']] += match['pBlack']
         return points
-
-
