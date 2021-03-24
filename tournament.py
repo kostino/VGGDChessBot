@@ -36,3 +36,4 @@ class Tournament:
             points[match['Black']] += match['pBlack']
         return points
 
+
