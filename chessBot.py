@@ -14,4 +14,4 @@ async def hello(ctx):
     await ctx.send("hi")
 
 # write here your discord bot token
-client.run('ODI0NDA4NTUyNzU5ODg1ODQ0.YFu8Sw.EgJ8rzzXzmeb2b1R-s7lebgyiow')
+client.run('___YOUR TOKEN___')
