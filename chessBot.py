@@ -15,3 +15,4 @@ async def hello(ctx):
 
 # write here your discord bot token
 client.run('___YOUR TOKEN___')
+
