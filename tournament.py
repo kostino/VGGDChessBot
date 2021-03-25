@@ -52,3 +52,26 @@ class Tournament:
     def prettyMatchlist(self):
         return tabulate(self.matchlist[['White', 'Black', 'Result']], tablefmt='psql', headers='keys')
 
+    def prettyResults(self):
+        ranking = self.getRanking()
+        ranking = dict(sorted(ranking.items(), key=lambda item: item[1][0], reverse=True))
+        players_sorted = ranking.keys()
+        cols = ['Player']
+        cols.extend(players_sorted)
+        cols.extend(['Points', 'Games'])
+        results = pd.DataFrame(columns=cols)
+        for player, points_and_games in ranking.items():
+            row = {'Player': player, 'Points': points_and_games[0], 'Games': points_and_games[1]}
+            for opponent in players_sorted:
+                if opponent == player:
+                    row[opponent] = '-'
+                else:
+                    row[opponent] = 0
+            results = results.append(row, ignore_index=True)
+        results = results.set_index('Player')
+        results = results.astype({player: float for player in players_sorted}, errors='ignore')
+        for index, match in self.matchlist.iterrows():
+            results.loc[match['White'], match['Black']] += match['pWhite']
+            results.loc[match['Black'], match['White']] += match['pBlack']
+        return tabulate(results, tablefmt='psql', headers='keys')
+
