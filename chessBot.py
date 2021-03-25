@@ -50,5 +50,5 @@ async def printMatchList(ctx):
 
 
 # write here your discord bot token
-client.run('___YOUR TOKEN___')
+client.run('__YOUR TOKEN__')
 
