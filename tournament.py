@@ -66,12 +66,16 @@ class Tournament:
                 if opponent == player:
                     row[opponent] = '-'
                 else:
-                    row[opponent] = 0
+                    row[opponent] = ' '
             results = results.append(row, ignore_index=True)
         results = results.set_index('Player')
         results = results.astype({player: float for player in players_sorted}, errors='ignore')
         for index, match in self.matchlist.iterrows():
-            results.loc[match['White'], match['Black']] += match['pWhite']
-            results.loc[match['Black'], match['White']] += match['pBlack']
+            results.loc[match['White'], match['Black']] = match['pWhite'] \
+                if results.loc[match['White'], match['Black']] == ' ' \
+                else results.loc[match['White'], match['Black']] + match['pWhite']
+            results.loc[match['Black'], match['White']] = match['pBlack'] \
+                if results.loc[match['Black'], match['White']] == ' ' \
+                else results.loc[match['Black'], match['White']] + match['pBlack']
         return tabulate(results, tablefmt='psql', headers='keys')
 
