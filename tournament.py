@@ -78,4 +78,3 @@ class Tournament:
                 if results.loc[match['Black'], match['White']] == ' ' \
                 else results.loc[match['Black'], match['White']] + match['pBlack']
         return tabulate(results, tablefmt='psql', headers='keys')
-
