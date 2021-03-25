@@ -6,8 +6,8 @@ from os.path import isfile
 class Tournament:
     def __init__(self, players):
         self.players = players
-        if isfile('matchlist.csv'):
-            self.matchlist = pd.read_csv('matchlist.csv')
+        if isfile('static/matchlist.csv'):
+            self.matchlist = pd.read_csv('static/matchlist.csv')
         else:
             self.matchlist = pd.DataFrame(columns=['White', 'Black', 'Result', 'pWhite', 'pBlack'])
 
@@ -31,7 +31,7 @@ class Tournament:
         self.matchlist = self.matchlist.append(new_match, ignore_index=True)
 
     def saveMatches(self):
-        self.matchlist.to_csv('matchlist.csv', index=False)
+        self.matchlist.to_csv('static/matchlist.csv', index=False)
 
     def getRanking(self):
         points = {player: [0, 0] for player in self.players}
