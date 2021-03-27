@@ -1,5 +1,10 @@
 from tournament import Tournament
 from discord.ext.commands import Bot
+from dotenv import load_dotenv
+from os import getenv
+
+load_dotenv()
+TOKEN = getenv('DISCORD_TOKEN')
 
 # write here your description and your command_prefix
 client = Bot(description="Chess Bot For SeraMG Invitational", command_prefix="!", pm_help=True)
@@ -50,5 +55,5 @@ async def printMatchList(ctx):
 
 
 # write here your discord bot token
-client.run('__YOUR TOKEN__')
+client.run(TOKEN)
 
