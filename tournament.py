@@ -5,14 +5,15 @@ import pickle
 
 
 class Tournament:
-    def __init__(self, players=None):
+    def __init__(self, name, players=None):
+        self.name = name
         if not players:
-            with open('players.txt', 'rb') as fp:
+            with open(self.name + '_players.txt', 'rb') as fp:
                 players = pickle.load(fp)
         else:
             self.players = players
-        if isfile('matchlist.csv'):
-            self.matchlist = pd.read_csv('matchlist.csv')
+        if isfile(name + '.csv'):
+            self.matchlist = pd.read_csv(self.name + '.csv')
         else:
             self.matchlist = pd.DataFrame(columns=['White', 'Black', 'Result', 'pWhite', 'pBlack'])
 
@@ -36,8 +37,8 @@ class Tournament:
         self.matchlist = self.matchlist.append(new_match, ignore_index=True)
 
     def save(self):
-        self.matchlist.to_csv('matchlist.csv', index=False)
-        with open('players.txt', 'wb') as fp:
+        self.matchlist.to_csv(self.name + '.csv', index=False)
+        with open(self.name + '_players.txt', 'wb') as fp:
             pickle.dump(self.players, fp)
 
     def getRanking(self):
