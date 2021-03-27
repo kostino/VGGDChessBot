@@ -9,7 +9,7 @@ class Tournament:
         self.name = name
         if not players:
             with open(self.name + '_players.txt', 'rb') as fp:
-                players = pickle.load(fp)
+                self.players = pickle.load(fp)
         else:
             self.players = players
         if isfile(name + '.csv'):
