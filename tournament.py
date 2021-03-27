@@ -1,11 +1,16 @@
 import pandas as pd
 from tabulate import tabulate
 from os.path import isfile
+import pickle
 
 
 class Tournament:
-    def __init__(self, players):
-        self.players = players
+    def __init__(self, players=None):
+        if not players:
+            with open('players.txt', 'rb') as fp:
+                players = pickle.load(fp)
+        else:
+            self.players = players
         if isfile('matchlist.csv'):
             self.matchlist = pd.read_csv('matchlist.csv')
         else:
@@ -30,8 +35,10 @@ class Tournament:
         new_match['Result'] = result
         self.matchlist = self.matchlist.append(new_match, ignore_index=True)
 
-    def saveMatches(self):
+    def save(self):
         self.matchlist.to_csv('matchlist.csv', index=False)
+        with open('players.txt', 'wb') as fp:
+            pickle.dump(self.players, fp)
 
     def getRanking(self):
         points = {player: [0, 0] for player in self.players}
